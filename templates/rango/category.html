@@ -11,26 +11,43 @@
 
 {% block body_block %}
     <ul class="nav flex-column">
-    {% if categories %}
-        {% for c in categories %}
-        {% if c == current_category %}
+    {% comment %} {% if pages %}
+        {% for page in pages %}
             <li class="nav-item">
-            <a class="nav-link active" href="{% url 'rango:show_category' c.slug %}">
+            <a class="nav-link active" href="{% url 'rango:show_category' category.slug %}">
                 <span data-feather="archive"></span>{{ c.name }}
             </a>
             </li>
-        {% else %}
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'rango:show_category' c.slug %}">
-                <span data-feather="archive"></span>{{ c.name }}
-            </a>
-            </li>
-        {% endif %}
         {% endfor %}
     {% else %}
         <li class="nav-item">There are no categories present.</li>
     {% endif %}
-    </ul>
+    </ul> {% endcomment %}
+    <div>
+        {% if comments %}
+        <ul>
+            {% for comment in comments %} 
+            {{ comment.username }}----{{ comment.posttime }}
+            <li>{{ comment.content }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <form id="comment_form" method="post" action="{% url 'rango:show_category' category.slug%}">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+            {{ field.errors }}
+            {{ field.help_text }}
+            {{ field }}
+        {% endfor %}
+        <input type="submit" name="submit" value="Add Comment" />
+    </form>
+    {% endif %}
 
     <!-- ?
     {% if category %}

@@ -7,9 +7,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
-from rango.models import Page, Category
-from rango.forms import PageForm, CategoryForm
-from rango.forms import UserForm, UserProfileForm
+from rango.models import Page, Category, Comment
+from rango.forms import PageForm, CategoryForm, VideoForm
+from rango.forms import UserForm, UserProfileForm, CommentForm
 
 # A helper method
 def get_server_side_cookie(request, cookie, default_val=None):
@@ -68,7 +68,8 @@ def about(request):
     return render(request, 'rango/about.html', context_dict)
 
 def show_category(request, category_name_slug):
-    context_dict = {}
+    context_dict= {}
+    form = CommentForm()
 
     try:
         category = Category.objects.get(slug=category_name_slug)
@@ -78,8 +79,58 @@ def show_category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['category'] = None
         context_dict['pages'] = None
+    context_dict['form'] = form
+
+    if request.method == 'POST':
+        add_comment(request, category_name_slug)
     
-    return render(request, 'rango/category.html', context_dict)
+    try:
+        comment = Comment.objects.filter(category=category_name_slug).order_by('-posttime')[:6]
+        context_dict['comments'] = comment
+    except Comment.DoesNotExist:
+        context_dict['comments'] = None
+
+    return render(request, 'rango/category.html', context=context_dict)
+
+def add_comment(request, slug):
+    form = CommentForm(request.POST)
+    if form.is_valid() and form['content'] != None:
+        f = form.save(commit=False)
+        f.username = get_server_side_cookie(request, 'username', 'Anonym')
+        f.posttime = datetime.now()
+        f.category = slug
+        f.save()
+    else:
+        print(form.errors)
+
+@login_required
+def add_video(request, category_name_slug):
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        category = None
+    
+    if category is None:
+        return redirect(reverse('rango:index'))
+    
+    form = VideoForm()
+
+    if request.method == 'POST':
+        form = VideoForm(request.POST)
+
+        if form.is_valid():
+            if category:
+                video = form.save(commit=False)
+                video.category = category
+                video.views = 0
+                video.save()
+
+                return redirect(reverse('rango:show_category', kwargs={'category_name_slug':category_name_slug}))
+        else:
+            print(form.errors)
+    context_dict = {'form': form, 'category': category}
+    return render(request, 'rango/add_video.html', context=context_dict)
+
 
 @login_required
 def add_category(request):
@@ -225,6 +276,7 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
+                request.session['username'] = username
                 return redirect(reverse('rango:index'))
             else:
                 # An inactive account was used - no logging in!
