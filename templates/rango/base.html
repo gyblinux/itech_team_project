@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 {% load rango_template_tags %}
+
 <html lang="en">
-    <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -12,90 +13,96 @@
     <title>
         Rango - {% block title_block %}How to Tango with Django!{% endblock %}
     </title>
-    
+
     <!-- Bootstrap core CSS -->
     <link href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
     
-    <!-- Custom styles for this template -->
-    <!-- <link href="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css" rel="stylesheet"> -->
-    </head>
-    
-    <body>
-        <header>
-            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary p-0">
-                <div class="container-fluid">
-                    <a class="navbar-brand p-2" href="{% url 'rango:index' %}">
-                        <img src="{% static 'images/favicon.ico'%}" alt="" width="30" height="24" class="d-inline-block align-text-top">
-                        Rango
-                    </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'rango:index' %}">Home</a></li>
-                            <li class="nav-item "><a class="nav-link" href="{% url 'rango:about' %}">About</a></li>
-                            {% if user.is_authenticated %}
-                            <li class="nav-item "><a class="nav-link" href="{% url 'rango:restricted' %}">Restricted</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'rango:add_category' %}">Add Category</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'auth_password_change' %}">Change Password</a></li>
-                            {% else %}
-                            {% endif %}
-                        </ul>
+<body>
 
-                        <!--a search box-->
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </div>
-                    
-                    <!--container ends-->
-                </div>
-            </nav>
-        </header>
-        
-        <!--Showcase-->
-        <section class="bg-dark text-light p-5 text-center">
-            <div class="container">
-                <div class="d-flex">
-                    <div>
-                        <h1>This is a Rango based website</h1>
-                    </div>
-                    <img class="img-fluid" src="{% static 'images/rango.jpg'%}" alt="">
-                </div>
-            </div>
-        </section>
-        
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                    <div class="sidebar-sticky">
-                    {% block sidebar_block %}
-                        {% get_category_list category %}
-                    {% endblock %}
-                    </div>
-                </nav>
-                
-                <main role="main" class="col-md-9  ml-sm-auto col-lg-10 px-4">		
-                    {% block body_block %}{% endblock %}
-                    
-                    <!-- FOOTER -->
-                    <footer>
-                        <p class="float-right"><a href="#">Back to top</a></p>
-                        <p>&copy; 2020 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-                    </footer>
-                </main>
-            </div>
+<!--Navbar-->
+<nav class="navbar navbar-expand-md navbar-light sticky-top justify-content-end">
+<div class="container-fluid">
+    <!--navbar supported item1: Company Logo & Website Name-->
+    <a class="navbar-brand p-2" href="{% url 'rango:index' %}">
+        <img src="{% static 'images/rango_logo.jpg'%}" alt="" width="32" height="32" class="d-inline-block align-text-top">
+        Rango
+    </a>
+    
+    <!--power badge-->
+    <span class="badge badge-success">Powered by @Bootstrap</span>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!--navbar supported item2: Dynamic navigation collapse setting-->
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'rango:index' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'rango:about' %}">About</a></li>
+
+            <!--navbar supported item3: dropdown menu for replacing sidebar-->
+            {% block dropdown_block %}
+            {% endblock dropdown_block %}
+
+            <!--limited view for login user-->
+            {% if user.is_authenticated %}
+                <li class="nav-item "><a class="nav-link" href="{% url 'rango:restricted' %}">Restricted</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'rango:add_category' %}">Add Category</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'auth_password_change' %}">Change Password</a></li>
+            {% else %}
+                <!--Guest view-->
+            {% endif %}
+
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Tutorials" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+            <li class="nav-item"><a class="nav-link" href="{% url 'rango:login' %}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'rango:show_category' %}">Register</a></li>
+        </ul>
+    </div>
+</div>
+</nav>
+
+{% block individual_view %}
+{% endblock individual_view %}
+
+<!-- Content part -->
+<div class="container-fluid">
+<div class="row">
+    <!-- sidebar content -->
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+        {% block sidebar_block %}
+            {% get_category_list category %}
+        {% endblock %}
         </div>
-        
+    </nav>
+    
+    <!--main body-->
+    <main role="main" class="col-md-9  ml-sm-auto col-lg-10 px-4">	
+        {% block body_block %}
+        {% endblock %}
+    </main>
+</div>
+</div>
 
-        <!-- Bootstrap core JavaScript -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-        <script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js"></script>
-    </body>
+<!-- FOOTER -->
+<footer>
+    <p class="float-right"><a href="#">Back to top</a></p>
+    <p>&copy; 2020 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+<script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js"></script>
+
+</body>
 </html>
