@@ -1,6 +1,9 @@
+from datetime import datetime
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+from datetime import datetime
+
 
 # Create your models here.
 class Category(models.Model):
@@ -33,6 +36,18 @@ class Page(models.Model):
     def __str__(self):
         return self.title
 
+class Video(models.Model):
+    TITLE_MAX_LENGTH = 128
+    URL_MAX_LENGTH = 200
+
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    title = models.CharField(max_length=TITLE_MAX_LENGTH)
+    url = models.URLField()
+    views = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.title
+
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -43,3 +58,9 @@ class UserProfile(models.Model):
     
     def __str__(self):
         return self.user.username
+
+class Comment(models.Model):
+    username = models.CharField(max_length=12)
+    content = models.CharField(max_length=128)
+    posttime = models.DateTimeField(default = datetime.now())
+    category = models.SlugField()

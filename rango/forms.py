@@ -1,6 +1,6 @@
 from django import forms
-from rango.models import Page
-from rango.models import Category
+from rango.models import Page,Video
+from rango.models import Category, Comment
 from django.contrib.auth.models import User
 from rango.models import UserProfile
 
@@ -48,6 +48,26 @@ class PageForm(forms.ModelForm):
         
         return cleaned_data
 
+class VideoForm(forms.ModelForm):
+    title = forms.CharField(max_length=Page.TITLE_MAX_LENGTH,
+                            help_text="Please enter the title of the Video.")
+    url = forms.URLField(max_length=200,
+                        help_text="Please enter the URL of the Video.")
+    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+
+    class Meta:
+        model = Video
+        exclude = ('category', )
+    
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        url = cleaned_data.get('url')
+
+        if url and not url.startswith('http://'):
+            url = f'http://{url}'
+            cleaned_data['url'] = url
+        return cleaned_data
+
 
 # for registration form
 class UserForm(forms.ModelForm):
@@ -62,3 +82,9 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('website', 'picture',)
+
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(max_length=500)
+    class Meta:
+        model = Comment
+        fields = ('content',)

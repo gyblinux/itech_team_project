@@ -20,8 +20,7 @@
 </head>
     
 <body>
-
-<!--Navbar-->
+<!-- HEADER: Navbar -->
 <nav class="navbar navbar-expand-md navbar-light sticky-top justify-content-end">
 <div class="container-fluid">
     <!--navbar supported item1: Company Logo & Website Name-->
@@ -44,57 +43,70 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'rango:about' %}">About</a></li>
 
             <!--navbar supported item3: dropdown menu for replacing sidebar-->
-            {% block dropdown_block %}
-            {% endblock dropdown_block %}
-
-            <!--limited view for login user-->
-            {% if user.is_authenticated %}
-                <li class="nav-item "><a class="nav-link" href="{% url 'rango:restricted' %}">Restricted</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'rango:add_category' %}">Add Category</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'auth_password_change' %}">Change Password</a></li>
-            {% else %}
-                <!--Guest view-->
-            {% endif %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Tutorials
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for cat in categories %}
+                    <!-- <a class="dropdown-item" href="{% url 'rango:show_category' cat.slug %}">{{ cat.name }}</a> -->
+                    <a class="dropdown-item" href="{% url 'rango:show_category' cat.slug %}">{{ cat.name }}</a>
+                    {% endfor %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'rango:forum' %}">Browse All Categories</a>
+                </div>
+            </li>
 
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search Tutorials" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
 
-            <li class="nav-item"><a class="nav-link" href="{% url 'rango:login' %}">Login</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'rango:show_category' %}">Register</a></li>
+            <!--limited view for login user-->
+            {% if user.is_authenticated %}
+            <!-- <li class="nav-item "><a class="nav-link" href="{% url 'rango:restricted' %}">Restricted Test Page</a></li> -->
+            <li class="nav-item dropdown btn-sm">
+                <a class="nav-link dropdown-toggle btn btn-outline-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                My Account
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'rango:add_category' %}">Add Category</a>
+                    <a class="dropdown-item" href="{% url 'auth_password_change' %}">Change Password</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'auth_logout' %}?next={% url 'rango:index' %}">Logout</a>
+                </div>
+            </li>
+            {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'auth_login' %}">Login</a></li>
+            <li class="nav-item"><a class="nav-link btn btn-success" href="{% url 'registration_register' %}">Sign Up</a></li>
+            {% endif %}
         </ul>
     </div>
 </div>
 </nav>
 
-{% block individual_view %}
-{% endblock individual_view %}
-
-<!-- Content part -->
-<div class="container-fluid">
-<div class="row">
-    <!-- sidebar content -->
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-        {% block sidebar_block %}
-            {% get_category_list category %}
-        {% endblock %}
-        </div>
-    </nav>
-    
-    <!--main body-->
-    <main role="main" class="col-md-9  ml-sm-auto col-lg-10 px-4">	
-        {% block body_block %}
-        {% endblock %}
-    </main>
-</div>
-</div>
+<!-- PAGE -->
+{% block body_block %}
+{% endblock body_block%}
 
 <!-- FOOTER -->
 <footer>
-    <p class="float-right"><a href="#">Back to top</a></p>
-    <p>&copy; 2020 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+<p class="float-right"><a href="#">Back to top</a></p>
+<div class="container-fluid padding">
+<div class="row text-center">
+    <div class="col-sm">
+        <hr class="light">
+        <h4>A ITech Team Project</h4>
+        <p>School of Computer Science(SoCS)</p>
+        <p>University of Glasgow, UK</p>
+        <p>Powered by @Python @Django2 @Bootstrap4 @GoogleFonts</p>
+    </div>
+    <div class="col-12">
+        <hr class="light">
+        <p>&copy; 2021 Learning Hub &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+    </div>
+</div>
+</div>
 </footer>
 
 <!-- Bootstrap core JavaScript -->

@@ -5,22 +5,7 @@
     Homepage
 {% endblock title_block %}
 
-{% block dropdown_block %}
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Tutorials
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        {% for cat in categories %}
-        <a class="dropdown-item" href="{% url 'rango:show_category' cat.slug %}">{{ cat.name }}</a>
-        {% endfor %}
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{% url 'rango:category' %}">Browse All Categories</a>
-    </div>
-</li>
-{% endblock dropdown_block %}
-
-{% block individual_view %}
+{% block body_block %}
 <!--index slider-->
 <div id="slides" class="carousel slide" data-ride="carousel">
     <ul class="carousel-indicators">
@@ -32,9 +17,9 @@
         <div class="carousel-item active" >
             <img src="{% static 'images/bg.jpg' %}" class="img-fluid" alt="Responsive image">
             <div class="carousel-caption d-none d-md-block">
-                <h1 class="display-2">Learning<span class="text-warning">Hub</span></h1>
+                <h1 class="display-2">Rango Based<span class="text-warning">Website</span></h1>
                 <button type="button" class="btn btn-outline-light btn-lg">Watch Demo</button>
-                <button type="button" class="btn btn-primary btn-lg">Register</button>
+                <a href="{% url 'registration_register' %}" class="btn btn-success btn-lg" role="button">Sign Up Now!</a>
             </div>
         </div>
         <div class="carousel-item">
@@ -42,7 +27,7 @@
             <div class="carousel-caption d-none d-md-block">
                 <h1 class="display-2">Learning<span class="text-warning">Hub</span></h1>
                 <button type="button" class="btn btn-outline-light btn-lg">Watch Demo</button>
-                <button type="button" class="btn btn-primary btn-lg">Register</button>
+                <a href="{% url 'registration_register' %}" class="btn btn-success btn-lg" role="button">Sign Up Now!</a>
             </div>
         </div>
         <div class="carousel-item">
@@ -50,7 +35,7 @@
             <div class="carousel-caption d-none d-md-block">
                 <h1 class="display-2">Learning<span class="text-warning">Hub</span></h1>
                 <button type="button" class="btn btn-outline-light btn-lg">Watch Demo</button>
-                <button type="button" class="btn btn-primary btn-lg">Register</button>
+                <a href="{% url 'registration_register' %}" class="btn btn-success btn-lg" role="button">Sign Up Now!</a>
             </div>
         </div>
     </div>
@@ -62,7 +47,7 @@
     <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
         <p class="lead">some intro TBA...</p>
         <div class="embed-responsive embed-responsive-16by9">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/9cKsq14Kfsw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="300" height="150" src="https://www.youtube.com/embed/9cKsq14Kfsw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
 
@@ -85,95 +70,48 @@
 <div class="container-fluid padding">
 <div class="card-deck">
     <div class="card">
-        <img class="card-img-top" src="{% static 'images/rango.jpg' %}" alt="">
+        <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
         <div class="card-body">
             <h4 class="card-title">Lei Zhou</h4>
             <p class="card-text">some intro TBA...</p>
         </div>
+        <div class="card-footer">
+            <small class="text-muted">Backend Dev</small>
+        </div>
     </div>
 
     <div class="card">
-        <img class="card-img-top" src="{% static 'images/rango.jpg' %}" alt="">
+        <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
         <div class="card-body">
             <h4 class="card-title">Wenkai Fang</h4>
             <p class="card-text">some intro TBA...</p>
         </div>
+        <div class="card-footer">
+            <small class="text-muted">Backend Dev</small>
+        </div>
     </div>
 
     <div class="card">
-        <img class="card-img-top" src="{% static 'images/rango.jpg' %}" alt="">
+        <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
         <div class="card-body">
             <h4 class="card-title">Yueyue Liu</h4>
             <p class="card-text">some intro TBA...</p>
         </div>
+        <div class="card-footer">
+            <small class="text-muted">Frontend Dev</small>
+        </div>
     </div>
     
     <div class="card">
-        <img class="card-img-top" src="{% static 'images/rango.jpg' %}" alt="">
+        <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
         <div class="card-body">
             <h4 class="card-title">Yingbo Ge</h4>
             <p class="card-text">some intro TBA...</p>
         </div>
+        <div class="card-footer">
+            <small class="text-muted">Frontend Dev</small>
+        </div>
     </div>
 </div>    
 </div>
-
-{% endblock individual_view %}
-    
-{% block body_block %}
-    <h1>
-        <div class="jumbotron p-4">
-            <div class="container">
-                <h1 class="jumbotron-heading">Rango says...</h1>
-                <div>
-                    <h2 class="h2">
-                    {% if user.is_authenticated %}
-                        howdy {{ user.username }}!
-                    {% else %}
-                        Rango says hey there partner!
-                    {% endif %}
-                    </h2>
-                <strong>{{ boldmessage }}</strong>
-                </div>
-            </div>
-        </div>
-            
-    </h1>
-    <div>
-        <strong>{{ boldmessage }}</strong><br />
-    </div>
-
-    <!--chapter6 added categories variable-->
-    {% if  categories %}
-    <h2>Most Liked Categories</h2>
-    <ul>
-        {% for category in categories %}
-            <!-- missing '/' in the end of href caused a problem-->
-            <!-- li markup has to be in one line to pass the test-->
-            <li><a href="/rango/category/{{ category.slug }}/">{{ category.name }}</a></li>
-        {% endfor %}
-    </ul>
-    {% else %}
-        <strong>There are no categories present.</strong>
-    {% endif %}
-
-
-    {% if pages %} <!--TwD C6 Exercise No.2 test-->
-    <h2>Most Viewed Pages</h2>
-    <ul>
-        
-        {% for page in pages %}
-        <!-- li markup has to be in one line to pass the test-->
-        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-        {% endfor %}      
-    </ul>
-    {% else %}
-    <strong>There are no pages present.</strong>
-    {% endif %}
-
-
-    <div>
-        <!--not deleting comments result in c9 test failed-->
-        <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" />
-    </div>
-{% endblock body_block %}
+{% endblock body_block%}

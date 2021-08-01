@@ -72,6 +72,12 @@ html, body {
 .card {
     width: 12rem;
 }
+
+footer {
+    background-color: #3f3f3f;
+    color: #d5d5d5;
+    padding-top: 0.5rem;
+}
 /* fixed bg img */
 figure {
     position: relative;

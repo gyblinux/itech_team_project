@@ -1,0 +1,82 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% load rango_template_tags %}
+
+
+{% block title_block %}
+    Tutorials
+{% endblock title_block %}
+    
+
+{% block body_block %}
+<!-- main frame -->
+<div class="container-fluid">
+<div class="row">
+    <!-- sidebar content -->
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+            {% get_category_list category %}
+        </div>
+    </nav>
+    
+    <!--main body-->
+    <main role="main" class="col-md-9  ml-sm-auto col-lg-10 px-4">	
+        <h1>
+            <div class="jumbotron p-4">
+                <div class="container">
+                    <h1 class="jumbotron-heading">Rango says...</h1>
+                    <div>
+                        <h2 class="h2">
+                        {% if user.is_authenticated %}
+                            howdy {{ user.username }}!
+                        {% else %}
+                            Rango says hey there partner!
+                        {% endif %}
+                        </h2>
+                    <strong>{{ boldmessage }}</strong>
+                    </div>
+                </div>
+            </div>
+                
+        </h1>
+        <div>
+            <strong>{{ boldmessage }}</strong><br />
+        </div>
+    
+        <!--chapter6 added categories variable-->
+        {% if  categories %}
+        <h2>Most Liked Categories</h2>
+        <ul>
+            {% for category in categories %}
+                <!-- missing '/' in the end of href caused a problem-->
+                <!-- li markup has to be in one line to pass the test-->
+                <li><a href="/rango/category/{{ category.slug }}/">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <strong>There are no categories present.</strong>
+        {% endif %}
+    
+    
+        {% if pages %} <!--TwD C6 Exercise No.2 test-->
+        <h2>Most Viewed Pages</h2>
+        <ul>
+            
+            {% for page in pages %}
+            <!-- li markup has to be in one line to pass the test-->
+            <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+            {% endfor %}      
+        </ul>
+        {% else %}
+        <strong>There are no pages present.</strong>
+        {% endif %}
+    
+    
+        <div>
+            <!--not deleting comments result in c9 test failed-->
+            <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
+        </div>
+    </main>
+</div>
+</div>
+{% endblock body_block %}
