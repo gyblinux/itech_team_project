@@ -18,7 +18,7 @@
             <img src="{% static 'images/bg.jpg' %}" class="img-fluid" alt="Responsive image">
             <div class="carousel-caption d-none d-md-block">
                 <h1 class="display-2">Rango Based<span class="text-warning">Website</span></h1>
-                <button type="button" class="btn btn-outline-light btn-lg">Watch Demo</button>
+                <a href="#demo" role="button" class="btn btn-outline-light btn-lg">Watch Demo</a>
                 <a href="{% url 'registration_register' %}" class="btn btn-success btn-lg" role="button">Sign Up Now!</a>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <img src="{% static 'images/bg2.jpg' %}" class="img-fluid" alt="Responsive image">
             <div class="carousel-caption d-none d-md-block">
                 <h1 class="display-2">Learning<span class="text-warning">Hub</span></h1>
-                <button type="button" class="btn btn-outline-light btn-lg">Watch Demo</button>
+                <a href="#demo" role="button" class="btn btn-outline-light btn-lg">Watch Demo</a>
                 <a href="{% url 'registration_register' %}" class="btn btn-success btn-lg" role="button">Sign Up Now!</a>
             </div>
         </div>
@@ -34,7 +34,7 @@
             <img src="{% static 'images/bg3.jpg' %}" class="img-fluid" alt="Responsive image">
             <div class="carousel-caption d-none d-md-block">
                 <h1 class="display-2">Learning<span class="text-warning">Hub</span></h1>
-                <button type="button" class="btn btn-outline-light btn-lg">Watch Demo</button>
+                <a href="#demo" role="button" class="btn btn-outline-light btn-lg">Watch Demo</a>
                 <a href="{% url 'registration_register' %}" class="btn btn-success btn-lg" role="button">Sign Up Now!</a>
             </div>
         </div>
@@ -43,25 +43,27 @@
 
 <!--jumbotron-->
 <div class="container-fluid">
-<div class="row jumbotron">
-    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
-        <p class="lead">some intro TBA...</p>
-        <div class="embed-responsive embed-responsive-16by9">
-            <iframe width="300" height="150" src="https://www.youtube.com/embed/9cKsq14Kfsw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div class="row jumbotron align-items-center">
+    <div class="col-6"> <!--xs-12-->
+        <p class="lead">
+            This website is a rango based tutorial website where people can find tutorials of good quality on various topics.
+        </p>
+        <div id="demo" class="video-wrapper embed-responsive embed-responsive-16by9">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/9cKsq14Kfsw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
-
-    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
-        <a href="#"><button type="button" class="btn btn-outline-secondary btn-lg">Explore Tutorials</button></a>
+    <div class="col-6">
+        <a href="{% url 'rango:forum' %}"><button type="button" class="btn btn-outline-secondary btn-lg">Explore Tutorials</button></a>
     </div>
 </div>
+<hr>
 </div>
 
 <!--meet the team-->
 <div class="container-fluid padding">
 <div class="row welcome text-center">
     <div class="col-12">
-        <h3 class="display-4">Team Members</h1>
+        <h3 class="display-4">Meet the Team</h1>
     </div>
 </div>
 </div>
@@ -72,7 +74,7 @@
     <div class="card">
         <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
         <div class="card-body">
-            <h4 class="card-title">Lei Zhou</h4>
+            <h4 class="card-title">Personas</h4>
             <p class="card-text">some intro TBA...</p>
         </div>
         <div class="card-footer">
@@ -83,7 +85,7 @@
     <div class="card">
         <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
         <div class="card-body">
-            <h4 class="card-title">Wenkai Fang</h4>
+            <h4 class="card-title">Personas</h4>
             <p class="card-text">some intro TBA...</p>
         </div>
         <div class="card-footer">
@@ -94,7 +96,7 @@
     <div class="card">
         <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
         <div class="card-body">
-            <h4 class="card-title">Yueyue Liu</h4>
+            <h4 class="card-title">Personas</h4>
             <p class="card-text">some intro TBA...</p>
         </div>
         <div class="card-footer">
@@ -105,13 +107,13 @@
     <div class="card">
         <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
         <div class="card-body">
-            <h4 class="card-title">Yingbo Ge</h4>
+            <h4 class="card-title">Personas</h4>
             <p class="card-text">some intro TBA...</p>
         </div>
         <div class="card-footer">
             <small class="text-muted">Frontend Dev</small>
         </div>
     </div>
-</div>    
+</div>
 </div>
 {% endblock body_block%}

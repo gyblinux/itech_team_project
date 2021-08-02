@@ -5,9 +5,11 @@
 {% endblock %}
 
 {% block body_block %}
+<hr>
 <div class="container-fluid padding">
 <div class="row align-items-center">
-    <div class="col">
+    <div class="col"></div>
+    <div class="col-md-auto">
         <div class="container-fluid padding">
         <h3>Register Here</h3>
         <form method="post" action=".">
@@ -33,14 +35,13 @@
                     </div>
                 </div>    
             {% endfor %}
-            <br>
             <!-- {{ form.as_p }} -->
             <input class="btn btn-success" type="submit" value="Register" />
             <input type="hidden" name="next" value="{{ next }}" />
         </form>
         </div>  
     </div>
+    <div class="col"></div>
 </div>
-<br>
 </div>
 {% endblock %}
