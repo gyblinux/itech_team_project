@@ -1,67 +1,119 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
 
-
 {% block title_block %}
     Homepage
 {% endblock title_block %}
-    
 
 {% block body_block %}
-    <h1>
-        <div class="jumbotron p-4">
-            <div class="container">
-                <h1 class="jumbotron-heading">Rango says...</h1>
-                <div>
-                    <h2 class="h2">
-                    {% if user.is_authenticated %}
-                        howdy {{ user.username }}!
-                    {% else %}
-                        Rango says hey there partner!
-                    {% endif %}
-                    </h2>
-                <strong>{{ boldmessage }}</strong>
-                </div>
+<!--index slider-->
+<div id="slides" class="carousel slide" data-ride="carousel">
+    <ul class="carousel-indicators">
+        <li data-target="#slides" data-slide-to="0" class="active"></li>
+        <li data-target="#slides" data-slide-to="1"></li>
+        <li data-target="#slides" data-slide-to="2"></li>
+    </ul>
+    <div class="carousel-inner">
+        <div class="carousel-item active" >
+            <img src="{% static 'images/bg.jpg' %}" class="img-fluid" alt="Responsive image">
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-2">Rango Based<span class="text-warning">Website</span></h1>
+                <a href="#demo" role="button" class="btn btn-outline-light btn-lg">Watch Demo</a>
+                <a href="{% url 'registration_register' %}" class="btn btn-success btn-lg" role="button">Sign Up Now!</a>
             </div>
         </div>
-            
-    </h1>
-    <div>
-        <strong>{{ boldmessage }}</strong><br />
+        <div class="carousel-item">
+            <img src="{% static 'images/bg2.jpg' %}" class="img-fluid" alt="Responsive image">
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-2">Learning<span class="text-warning">Hub</span></h1>
+                <a href="#demo" role="button" class="btn btn-outline-light btn-lg">Watch Demo</a>
+                <a href="{% url 'registration_register' %}" class="btn btn-success btn-lg" role="button">Sign Up Now!</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'images/bg3.jpg' %}" class="img-fluid" alt="Responsive image">
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-2">Learning<span class="text-warning">Hub</span></h1>
+                <a href="#demo" role="button" class="btn btn-outline-light btn-lg">Watch Demo</a>
+                <a href="{% url 'registration_register' %}" class="btn btn-success btn-lg" role="button">Sign Up Now!</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--jumbotron-->
+<div class="container-fluid">
+<div class="row jumbotron align-items-center">
+    <div class="col-6"> <!--xs-12-->
+        <p class="lead">
+            This website is a rango based tutorial website where people can find tutorials of good quality on various topics.
+        </p>
+        <div id="demo" class="video-wrapper embed-responsive embed-responsive-16by9">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/9cKsq14Kfsw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+    <div class="col-6">
+        <a href="{% url 'rango:forum' %}"><button type="button" class="btn btn-outline-secondary btn-lg">Explore Tutorials</button></a>
+    </div>
+</div>
+<hr>
+</div>
+
+<!--meet the team-->
+<div class="container-fluid padding">
+<div class="row welcome text-center">
+    <div class="col-12">
+        <h3 class="display-4">Meet the Team</h1>
+    </div>
+</div>
+</div>
+
+<!--cards-->
+<div class="container-fluid padding">
+<div class="card-deck">
+    <div class="card">
+        <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
+        <div class="card-body">
+            <h4 class="card-title">Personas</h4>
+            <p class="card-text">some intro TBA...</p>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Backend Dev</small>
+        </div>
     </div>
 
-    <!--chapter6 added categories variable-->
-    {% if  categories %}
-    <h2>Most Liked Categories</h2>
-    <ul>
-        {% for category in categories %}
-            <!-- missing '/' in the end of href caused a problem-->
-            <!-- li markup has to be in one line to pass the test-->
-            <li><a href="/rango/category/{{ category.slug }}/">{{ category.name }}</a></li>
-        {% endfor %}
-    </ul>
-    {% else %}
-        <strong>There are no categories present.</strong>
-    {% endif %}
-
-
-    {% if pages %} <!--TwD C6 Exercise No.2 test-->
-    <h2>Most Viewed Pages</h2>
-    <ul>
-        
-        {% for page in pages %}
-        <!-- li markup has to be in one line to pass the test-->
-        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-        {% endfor %}      
-    </ul>
-    {% else %}
-    <strong>There are no pages present.</strong>
-    {% endif %}
-
-
-    <div>
-        <!--not deleting comments result in c9 test failed-->
-        <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" />
+    <div class="card">
+        <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
+        <div class="card-body">
+            <h4 class="card-title">Personas</h4>
+            <p class="card-text">some intro TBA...</p>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Backend Dev</small>
+        </div>
     </div>
-{% endblock body_block %}
+
+    <div class="card">
+        <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
+        <div class="card-body">
+            <h4 class="card-title">Personas</h4>
+            <p class="card-text">some intro TBA...</p>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Frontend Dev</small>
+        </div>
+    </div>
     
+    <div class="card">
+        <img class="card-img-top" src="{% static 'images/profile.jpg' %}" alt="">
+        <div class="card-body">
+            <h4 class="card-title">Personas</h4>
+            <p class="card-text">some intro TBA...</p>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Frontend Dev</small>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock body_block%}
