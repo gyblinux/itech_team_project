@@ -49,10 +49,26 @@
     </form>
     {% endif %}
     
-    <!--show some trending pages-->
+<!--show some trending pages-->
 <div class="container-fluid">
     {% if category %}
         <h1>{{ category.name }}</h1>
+        
+        <!--C17 like button-->
+        <div>
+            <strong id="like_count">{{ category.likes }}</strong> likes
+            {% if user.is_authenticated %}
+            <button id="like_btn"
+                    data-categoryid="{{ category.id }}"
+                    class="btn btn-primary btn-sm"
+                    type="button">
+                <span data-feather="thumbs-up"></span>
+                Like Category
+            </button>
+            {% endif %}
+        </div>
+            
+
         {% if pages %}
         <ul>
             {% for page in pages %}

@@ -5,12 +5,14 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from datetime import datetime
 
 from rango.models import Page, Category, Comment, Course
 from rango.forms import PageForm, CategoryForm, VideoForm
 from rango.forms import UserForm, UserProfileForm, CommentForm
 from django.views import View
+
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User 
 from rango.models import UserProfile
@@ -430,3 +432,18 @@ def post(self, request, username):
 #     logout(request)
 #     # Take the user back to the homepage.
 #     return redirect(reverse('rango:index'))
+
+# C17 added:
+class LikeCategoryView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        category_id = request.GET['category_id']
+        try:
+            category = Category.objects.get(id=int(category_id))
+        except Category.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        category.likes = category.likes + 1
+        category.save()
+        return HttpResponse(category.likes)
