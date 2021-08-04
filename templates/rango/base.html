@@ -72,6 +72,8 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'rango:add_category' %}">Add Category</a>
                     <a class="dropdown-item" href="{% url 'auth_password_change' %}">Change Password</a>
+                    <a class="dropdown-item" href="{% url 'rango:profile' user.username %}">Edit Profile</a>
+                       
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'auth_logout' %}?next={% url 'rango:index' %}">Logout</a>
                 </div>
@@ -81,6 +83,7 @@
                 <a class="nav-link" href="{% url 'auth_login' %}"><span data-feather="log-in"></span> Login</a>
             </li>
             <li class="nav-item"><a class="nav-link btn btn-success" href="{% url 'registration_register' %}">Sign Up</a></li>
+           
             {% endif %}
         </ul>
     </div>
