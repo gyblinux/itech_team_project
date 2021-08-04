@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
-from rango.models import Page, Category, Comment
+from rango.models import Page, Category, Comment, Course
 from rango.forms import PageForm, CategoryForm, VideoForm
 from rango.forms import UserForm, UserProfileForm, CommentForm
 
@@ -39,10 +39,12 @@ def visitor_cookie_handler(request):
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
     page_list = Page.objects.order_by('-views')[:5]
+    course_list = Course.objects.all()[:3]
     context_dict = {
         'boldmessage': 'Crunchy, creamy, cookie, candy, cupcake!', # chapter 3 output
         'categories' : category_list,
         'pages': page_list,
+        'courses': course_list
         # 'visits': int(request.COOKIES.get('visits', '1'))
     }
     
@@ -74,6 +76,24 @@ def forum(request):
         # 'visits': int(request.COOKIES.get('visits', '1'))
     }
     return render(request, 'rango/forum.html', context_dict)
+
+def courses(request):
+
+    courses = Course.objects.all()
+    context_dict = {
+        'courses': courses,
+    }
+
+    return render(request, 'rango/courses.html', context_dict)
+
+def single_course(request, course_id):
+    this_course = Course.objects.filter(course_id=course_id)[0]
+    topic_list = Category.objects.filter(course=this_course)
+    context_dict = {
+        'course': this_course,
+        'topics': topic_list,
+    }
+    return render(request, 'rango/course.html', context_dict)
 
 def show_category(request, category_name_slug):
     context_dict= {}

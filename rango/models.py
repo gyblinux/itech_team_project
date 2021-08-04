@@ -1,14 +1,24 @@
 from datetime import datetime
 from django.db import models
+from django.db.models.deletion import CASCADE
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from datetime import datetime
 
-
 # Create your models here.
+class Course(models.Model):
+    
+    course_id = models.CharField(max_length=20, unique=True)
+    course_name = models.CharField(max_length=50)
+    course_description = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.course_id
+
 class Category(models.Model):
     NAME_MAX_LENGTH = 128
 
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     views = models.IntegerField(default=0) # new
     likes = models.IntegerField(default=0) # new 

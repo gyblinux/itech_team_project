@@ -1,0 +1,13 @@
+<ul class="nav flex-column">
+    {% if course_list %}
+        {% for course in course_list %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'rango:single_course' course.course_id %}">
+                <span data-feather="book"></span>{{ course.course_name }}
+            </a>
+            </li>
+        {% endfor %}
+    {% else %}
+        <li class="nav-item">There are no categories present.</li>
+    {% endif %}
+</ul>
