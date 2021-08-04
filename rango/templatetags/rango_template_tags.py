@@ -1,5 +1,5 @@
 from django import template
-from rango.models import Category
+from rango.models import Category, Course
 
 register = template.Library()
 
@@ -13,4 +13,10 @@ def get_category_list(current_category=None):
 def get_top3_category_list(current_category=None):
     return {
         'categories': Category.objects.order_by('-likes')[:3]
+    }
+
+@register.inclusion_tag('rango/course_list.html')
+def get_course_list():
+    return {
+        'course_list': Course.objects.all(),
     }

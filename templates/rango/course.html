@@ -1,0 +1,45 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% load rango_template_tags %}
+
+{% block body_block %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                {% get_course_list %}
+            </div>
+        </nav>
+    
+        <div class="col" id="course-detail-page">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb"> 
+                    <li class="breadcrumb-item"><a href="{% url 'rango:index' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'rango:courses'%}">Courses</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ course.course_name }}</li>
+                </ol>
+            </nav>
+
+            {% if course %}
+            <h1>{{ course.course_name }}</h1>
+            <h3>{{ course.course_id }}</h3>
+            <p>{{ course.course_description }}</p>
+                {% if topics %}
+                    {% for topic in topics %}
+                    <div class="row" id="topic-row">
+                        <div class="card" id="topic-card">
+                            <h5 class="card-header">{{ topic }}</h5>
+                            <div class="card-body">
+                                <h5 class="card-title">Special title treatment</h5>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <a href="{% url 'rango:show_category' topic.slug %}" class="btn btn-primary">Check the topic</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock body_block %}

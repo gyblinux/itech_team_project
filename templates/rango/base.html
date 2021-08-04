@@ -26,7 +26,7 @@
     <!--navbar supported item1: Company Logo & Website Name-->
     <a class="navbar-brand p-2" href="{% url 'rango:index' %}">
         <img src="{% static 'images/rango_logo.jpg'%}" alt="" width="32" height="32" class="d-inline-block align-text-top">
-        Rango
+        Learning<span class="badge badge-warning">Hub</span>
     </a>
     
     <!--power badge-->
@@ -66,8 +66,8 @@
             {% if user.is_authenticated %}
             <!-- <li class="nav-item "><a class="nav-link" href="{% url 'rango:restricted' %}">Restricted Test Page</a></li> -->
             <li class="nav-item dropdown btn-sm">
-                <a class="nav-link dropdown-toggle btn btn-outline-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                My Account
+                <a class="nav-link dropdown-toggle btn btn-outline-primary btn-sm" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span data-feather="user"></span> My Account
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'rango:add_category' %}">Add Category</a>
@@ -77,7 +77,9 @@
                 </div>
             </li>
             {% else %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'auth_login' %}">Login</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'auth_login' %}"><span data-feather="log-in"></span> Login</a>
+            </li>
             <li class="nav-item"><a class="nav-link btn btn-success" href="{% url 'registration_register' %}">Sign Up</a></li>
             {% endif %}
         </ul>
@@ -98,9 +100,8 @@
         <hr class="light">
         <h4>A ITech Team Project</h4>
         <p>School of Computer Science(SoCS)</p>
-        <p>University of Glasgow</p>
-        <p>Glasgow, United Kingdom</p>
-        <p>Powered by Python | Django2 | Bootstrap4 | GoogleFonts</p>
+        <p>University of Glasgow, United Kingdom</p>
+        <p>Powered by @Python3 | @Django2 | @Bootstrap4 | @GoogleFonts</p>
         <p class="float-none"><a href="#">Back to top</a></p>
     </div>
     <div class="col-12">

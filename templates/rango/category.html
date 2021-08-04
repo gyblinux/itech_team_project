@@ -49,7 +49,9 @@
     </form>
     {% endif %}
     
-    <!-- {% if category %}
+    <!--show some trending pages-->
+<div class="container-fluid">
+    {% if category %}
         <h1>{{ category.name }}</h1>
         {% if pages %}
         <ul>
@@ -67,6 +69,6 @@
         
     {% else %}
         The specified category does not exist!
-    {% endif %} -->
-
+    {% endif %}
+</div>
 {% endblock %}
