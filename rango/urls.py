@@ -18,4 +18,5 @@ urlpatterns = [
     path('add_comment/', views.add_comment, name='add_comment'),
     path('courses/', views.courses, name='courses'),
     path('courses/<course_id>/', views.single_course, name='single_course'),
+    path('like_category/', views.LikeCategoryView.as_view(), name='like_category'),
 ]
