@@ -19,7 +19,7 @@
         <!-- <div class="col-lg"> -->
             <div class="card bg-warning" id="course-card">
                 <div class="card-header">
-                    {{ course.course_id }}
+                    {{ course.course_id|upper }}
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ course.course_name }}</h5>
@@ -33,14 +33,5 @@
     {% endfor %}
 {% endif %}
 </div>
-
-    {% if courses %}
-        {% for course in courses %}
-            <li><a href="{% url 'rango:single_course' course.course_id %}">View the course -> {{ course.course_id }}: {{ course.course_name }}</a></li>
-        {% endfor %}
-            
-    {% endif %}
-        
-
 {% endblock body_block %}
     
