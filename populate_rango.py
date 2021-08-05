@@ -6,6 +6,37 @@ django.setup()
 from rango.models import Category, Course, Page
 
 # this function is just a helper function
+def course_indexing():
+    course_description = {
+        "compsci1234": "Web development is the work involved in developing a Web site for the Internet or an intranet. " \
+            "Web development can range from developing a simple single static page of plain text to complex web applications, electronic businesses, and social network services."
+        ,  
+        "compsci2333": "A package manager or package-management system is a collection of software tools that automates the process of installing, upgrading, " \
+            "configuring, and removing computer programs for a computer's operating system in a consistent manner. A package manager deals with packages, distributions of software and data in archive files."
+        ,
+        "compsci5678": "Software development is the process of conceiving, specifying, designing, programming, " \
+            "documenting, testing, and bug fixing involved in creating and maintaining applications, frameworks, or other software components"
+        ,
+        "compsci9876": "Cybersecurity is the art of protecting networks, devices, and data from unauthorized access or criminal use and the practice " \
+            "of ensuring confidentiality, integrity, and availability of information. It seems that everything relies on computers " \
+                "and the internet now—communication (e.g., email, smartphones, tablets), entertainment (e.g., interactive video games, social media, apps ), " \
+                    "transportation (e.g., navigation systems), shopping (e.g., online shopping, credit cards), medicine (e.g., medical equipment, medical records), and the list goes on."
+        ,
+        "compsci8888": "Video game development is the process of developing a video game. The effort is undertaken by a developer, " \
+            "ranging from a single person to an international team dispersed across the globe. " \
+                "Development of traditional commercial PC and console games is normally funded by a publisher, and can take several years to reach completion"
+    }
+
+    courses = {
+        "compsci1234": {"id": "compsci1234", "name": "Web Development", "description": course_description["compsci1234"]},
+        "compsci2333": {"id": "compsci2333", "name": "Package Manager", "description": course_description["compsci2333"]},
+        "compsci5678": {"id": "compsci5678", "name": "Software Development", "description": course_description["compsci5678"]},
+        "compsci9876": {"id": "compsci9876", "name": "Cyber Security", "description": course_description["compsci9876"]},
+        "compsci8888": {"id": "compsci8888", "name": "Video Game Development", "description": course_description["compsci8888"]},
+    }
+
+    for course_id, course_value in courses.items():
+        create_course(course_id, course_value["name"], course_value["description"])
 
 def populate():
 # First, we will create lists of dictionaries containing the pages
@@ -30,42 +61,27 @@ def populate():
         {"title": "Flask", "url": "http://flask.pocoo.org", "views": 16} 
     ]
 
-    cats = {"Python": {"pages": python_pages, "views": 128, "likes": 64, "belongs_id": "compsci1234"}, # new 
-            "Django": {"pages": django_pages, "views": 64, "likes": 32, "belongs_id": "compsci1234"}, # new
-            "Other Frameworks": {"pages": other_pages, "views": 32, "likes": 16, "belongs_id": "compsci5678"}  # new
-    }
+    package_pages = [
+        {"title": "Pip", "url": "https://pypi.org/project/pip/", "views": 16},
+        {"title": "Maven", "url": "https://maven.apache.org/what-is-maven.html", "views": 24},
+        {"title": "APT-GET", "url": "https://linux.die.net/man/8/apt-get", "views": 30},
+        {"title": "HomeBrew", "url": "https://brew.sh/", "views": 12},
+    ]
 
-    course_description = {
-        "compsci1234": "Web development is the work involved in developing a Web site for the Internet or an intranet. " \
-            "Web development can range from developing a simple single static page of plain text to complex web applications, electronic businesses, and social network services."
-        ,  
-        "compsci5678": "Machine learning is the study of computer algorithms that improve automatically through experience and by the use of data. " \
-            "It is seen as a part of artificial intelligence. Machine learning algorithms build a model based on sample data, known as 'training data', " \
-            "in order to make predictions or decisions without being explicitly programmed to do so"
-        ,
-        "compsci2021": "Web development is the work involved in developing a Web site for the Internet or an intranet. " \
-            "Web development can range from developing a simple single static page of plain text to complex web applications, electronic businesses, and social network services."
-        ,
-        "compsci2333": "A package manager or package-management system is a collection of software tools that automates the process of installing, upgrading, " \
-            "configuring, and removing computer programs for a computer's operating system in a consistent manner. A package manager deals with packages, distributions of software and data in archive files."
-    }
+    agile_pages = [
+        {"title": "APM", "url": "https://www.atlassian.com/agile/project-management", "views": 43},
 
-    courses = {
-        "compsci1234": {"id": "compsci1234", "name": "Web Development", "description": course_description["compsci1234"]},
-        "compsci5678": {"id": "compsci5678", "name": "Machine Learning", "description": course_description["compsci5678"]},
-        "compsci2021": {"id": "compsci2021", "name": "Web Application Development", "description": course_description["compsci1234"]},
-        "compsci2333": {"id": "compsci2333", "name": "Package Manager", "description": course_description["compsci2333"]},
-    }
-    # If you want to add more catergories or pages,
-    # add them to the dictionaries above.
+    ]
+    cats = {
+        "Python": {"pages": python_pages, "views": 128, "likes": 64, "belongs_id": "compsci1234"},
+        "Django": {"pages": django_pages, "views": 64, "likes": 32, "belongs_id": "compsci1234"},
+        "Ruby On Rails": {"pages": other_pages, "views": 32, "likes": 16, "belongs_id": "compsci1234"},
+        
+        "System Package Manager": {"pages": package_pages, "views": 130, "likes": 20, "belongs_id": "compsci2333"},
+        "Language Package Manager": {"pages": package_pages, "views": 111, "likes": 99, "belongs_id": "compsci2333"},
 
-    # The code below goes through the cats dictionary, then adds each category,
-    # and then adds all the associated pages for that category.
-    # if you are using Python 2.x then use cats.iteritems() see
-    # http://docs.quantifiedcode.com/python-anti-patterns/readability/
-    # for more information about how to iterate over a dictionary properly.
-    for course_id, course_value in courses.items():
-        create_course(course_id, course_value["name"], course_value["description"])
+        "Agile Management": {"pages": agile_pages, "views": 88, "likes": 66, "belongs_id": "compsci5678"}
+    }
 
     for cat, cat_data in cats.items():
         c = add_cat(Course.objects.filter(course_id=cat_data["belongs_id"])[0] , cat, cat_data["views"], cat_data["likes"])
@@ -103,4 +119,5 @@ def create_course(a_course_id, a_course_name, a_course_description):
 # Start execution here!
 if __name__ == '__main__':
     print("Starting Rango population script...")
+    course_indexing()
     populate()

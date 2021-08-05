@@ -23,4 +23,7 @@ urlpatterns = [
     path('register_profile/', views.register_profile, name='register_profile'),
     path('profile/<username>/', views.ProfileView.as_view(), name='profile'),
     path('like_category/', views.LikeCategoryView.as_view(), name='like_category'),
+
+    # new
+    path('courses/<course_id>/<slug:category_name_slug>/', views.single_category, name='single_category'),
 ]

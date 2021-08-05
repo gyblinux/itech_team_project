@@ -147,11 +147,29 @@ div.col img.gif {
 }
 
 form.form-signin input {
-    margin-top: 1.2rem !important
+    margin-top: 1.2rem !important;
 }
 
 form.form-signin button {
-    margin-top: 1.2rem !important
+    margin-top: 1.2rem !important;
+}
+
+#page-list-item {
+    margin-top: 0.5rem !important;
+}
+
+#page-list-item-text {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#comment-post {
+    margin: 0.5rem !important;
+}
+
+#comment-profile {
+    width: 64px !important;
+    height: 64px !important;
 }
 
 /* ==== website footer style ==== */
