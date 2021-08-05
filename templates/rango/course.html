@@ -88,8 +88,8 @@
                         <div class="card" id="topic-card">
                             <h5 class="card-header">{{ topic }}</h5>
                             <div class="card-body">
-                                <h5 class="card-title">Special title treatment</h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                {% comment %} <h5 class="card-title">Special title treatment</h5> {% endcomment %}
+                                <p class="card-text">Some related techlogical articles about {{ topic }}</p>
                                 <a href="{% url 'rango:single_category' course.course_id topic.slug %}" class="btn btn-primary">Check the topic</a>
                             </div>
                         </div>
