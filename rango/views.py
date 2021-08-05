@@ -101,6 +101,32 @@ def single_course(request, course_id):
     }
     return render(request, 'rango/course.html', context_dict)
 
+def single_category(request, course_id, category_name_slug):
+    course = Course.objects.get(course_id=course_id)
+    context_dict = {}
+    context_dict['course'] = course
+
+    form = CommentForm()
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+        pages = Page.objects.filter(category=category)
+        context_dict['pages'] = pages
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        context_dict['category'] = None
+        context_dict['pages'] = None
+    context_dict['form'] = form
+
+    if request.method == 'POST':
+        add_comment(request, category_name_slug)
+    
+    try:
+        comment = Comment.objects.filter(category=category_name_slug).order_by('-posttime')[:6]
+        context_dict['comments'] = comment
+    except Comment.DoesNotExist:
+        context_dict['comments'] = None
+    return render(request, 'rango/single_category.html', context_dict)
+
 def show_category(request, category_name_slug):
     context_dict= {}
     form = CommentForm()
@@ -131,6 +157,7 @@ def add_comment(request, slug):
     if form.is_valid() and form['content'] != None:
         f = form.save(commit=False)
         f.username = get_server_side_cookie(request, 'username', 'Anonym')
+        f.username = request.user.username # temporary solution for comment username
         f.posttime = datetime.now()
         f.category = slug
         f.save()
@@ -194,7 +221,7 @@ def add_category(request, course_id):
             print(this_category)
             # Now that the category is saved, we could confirm this.
             # For now, just redirect the user back to the index view.
-            return redirect(reverse('rango:courses'))
+            return redirect('rango:single_course', course.course_id)
         else:
             # The supplied form contained errors -
             # just print them to the terminal.
@@ -251,14 +278,15 @@ def register_profile(request):
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES)
         if form.is_valid():
-             user_profile = form.save(commit=False) 
-             user_profile.user = request.user 
-             user_profile.save()
-             return redirect(reverse('rango:index')) 
+            user_profile = form.save(commit=False) 
+            user_profile.user = request.user 
+            user_profile.save()
+            return redirect(reverse('rango:index')) 
         else:
-             print(form.errors) 
+            print(form.errors) 
     context_dict = {'form': form}
     return render(request, 'rango/profile_registration.html', context_dict)
+
 class AboutView(View):
     def get(self, request):
         context_dict = {}
