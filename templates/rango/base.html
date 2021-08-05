@@ -70,10 +70,8 @@
                 <span data-feather="user"></span> My Account
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'rango:add_category' %}">Add Category</a>
                     <a class="dropdown-item" href="{% url 'auth_password_change' %}">Change Password</a>
                     <a class="dropdown-item" href="{% url 'rango:profile' user.username %}">Edit Profile</a>
-                       
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'auth_logout' %}?next={% url 'rango:index' %}">Logout</a>
                 </div>

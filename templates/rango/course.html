@@ -5,12 +5,14 @@
 {% block body_block %}
 <div class="container-fluid">
     <div class="row">
+        <!--sidebar view-->
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
                 {% get_course_list %}
             </div>
         </nav>
     
+        <!--main body view-->
         <div class="col" id="course-detail-page">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb"> 
@@ -21,24 +23,65 @@
             </nav>
 
             {% if course %}
-            <h1>{{ course.course_name }}</h1>
-            <h3>{{ course.course_id }}</h3>
-            <p>{{ course.course_description }}</p>
-                {% if topics %}
-                    {% for topic in topics %}
-                    <div class="row" id="topic-row">
-                        <div class="card" id="topic-card">
-                            <h5 class="card-header">{{ topic }}</h5>
-                            <div class="card-body">
-                                <h5 class="card-title">Special title treatment</h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                <a href="{% url 'rango:show_category' topic.slug %}" class="btn btn-primary">Check the topic</a>
+            <div class="container-fluid">
+            <div class="row align-items-center">
+                <!--title column-->
+                <div class="col">
+                    <h1>{{ course.course_name }}</h1>
+                </div>
+
+                <!--button column-->
+                <div class="col-sm-auto">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                        Create New Topic
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Create a new topic for this course!</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                As a membership of our website, you can help us improve the course by adding more topics you are curious about.
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a href="{% url 'rango:add_category' course.course_id %}" role="button" class="btn btn-primary">Go To Add</a>
                             </div>
                         </div>
+                        </div> <!--inner modal elements-->
+                    </div> <!--modal element ends-->
+                </div> <!-- column for button ends-->
+            </div>
+            </div>
+
+            <!--course details view-->
+            <div class="container-fluid padding">
+            <h3>{{ course.course_id|upper }}</h3>
+            <p>{{ course.course_description }}</p>
+            </div>
+            <!--course topics' cards-->
+            {% if topics %}
+                {% for topic in topics %}
+                <div class="row" id="topic-row">
+                    <div class="card" id="topic-card">
+                        <h5 class="card-header">{{ topic }}</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Special title treatment</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="{% url 'rango:show_category' topic.slug %}" class="btn btn-primary">Check the topic</a>
+                        </div>
                     </div>
-                    {% endfor %}
-                {% endif %}
+                </div>
+                {% endfor %}
             {% endif %}
+        {% endif %}
         </div>
     </div>
 </div>
