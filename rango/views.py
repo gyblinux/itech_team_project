@@ -153,18 +153,26 @@ def show_category(request, category_name_slug):
         context_dict['comments'] = comment
     except Comment.DoesNotExist:
         context_dict['comments'] = None
-
+    
     return render(request, 'rango/category.html', context=context_dict)
 
-def add_comment(request, slug):
+def add_comment(request, category_name_slug):
     form = CommentForm(request.POST)
     if form.is_valid() and form['content'] != None:
         f = form.save(commit=False)
         f.username = get_server_side_cookie(request, 'username', 'Anonym')
         f.username = request.user.username # temporary solution for comment username
         f.posttime = datetime.now()
-        f.category = slug
+        f.category = category_name_slug
         f.save()
+
+        # for redirect back to single_category
+        category = Category.objects.get(slug=category_name_slug)
+        return redirect(reverse('rango:single_category', 
+            kwargs={'course_id': category.course.course_id,
+                    'category_name_slug': category_name_slug,
+            }
+        ))
     else:
         print(form.errors)
 
@@ -260,11 +268,14 @@ def add_page(request, category_name_slug):
                 page.category = category
                 page.views = 0
                 page.save()
-            
-                return redirect(reverse('rango:show_category',
-                    kwargs={'category_name_slug': category_name_slug}
+
+                # for redirecting back to the single_category view
+                course_id = page.category.course.course_id
+                return redirect(reverse('rango:single_category', 
+                    kwargs={'course_id': course_id,
+                            'category_name_slug': category_name_slug,
+                    }
                 ))
-        
         else:
             print(form.errors)
 

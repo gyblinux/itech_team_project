@@ -105,7 +105,7 @@
 
         <!-- comment button -->
         {% if user.is_authenticated %}
-        <form id="comment_form" method="post" action="{% url 'rango:show_category' category.slug %}">
+        <form id="comment_form" method="post" action="{% url 'rango:add_comment' category.slug %}">
             {% csrf_token %}
 
             {% for hidden in form.hidden_fields %}
