@@ -1,17 +1,16 @@
 from django.urls import path
 from rango import views
-from rango.views import AboutView
+from rango.views import AboutView, add_category
 
 app_name="rango"
 
 urlpatterns = [
     path('', views.index, name='index'),
-    #update
     path('about/', views.AboutView.as_view(), name='about'),
     path('forum/', views.forum, name='forum'),
     path('category/<slug:category_name_slug>/', views.show_category, name='show_category'),
-    #update
-    path('add_category/', views.AddCategoryView.as_view(), name='add_category'),
+    path('add_category/<course_id>', views.add_category, name='add_category'),
+    # path('add_category/', views.AddCategoryView.as_view(), name='add_category'), -> for the convenience of adding new categories
     path('category/<slug:category_name_slug>/add_page/', views.add_page, name='add_page'),
     path('category/<slug:category_name_slug>/add_video/', views.add_video, name='add_video'),
     path('restricted/', views.restricted, name='restricted'),

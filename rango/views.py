@@ -17,7 +17,6 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User 
 from rango.models import UserProfile
 
-
 # A helper method
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
@@ -168,29 +167,45 @@ def add_video(request, category_name_slug):
 
 
 @login_required
-def add_category(request):
+def add_category(request, course_id):
     ## C9 exercise redirect:
     # if not request.user.is_authenticated:
         # return redirect(reverse('rango:login'))
-
+    try:
+        course = Course.objects.get(course_id=course_id)
+    except Category.DoesNotExist:
+        course = None
+    
+    if course is None:
+        return redirect(reverse('rango:index'))
+    
     form = CategoryForm()
-    # A HTTP POST?
+    
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         # Have we been provided with a valid form?
         if form.is_valid():
             # Save the new category to the database.
-            form.save(commit=True)
+            this_category = form.save(commit=False)
+            this_category.course = course
+            this_category.views = 0
+            this_category.likes = 0
+            this_category.save()
+            print(this_category)
             # Now that the category is saved, we could confirm this.
             # For now, just redirect the user back to the index view.
-            return redirect('/rango/')
+            return redirect(reverse('rango:courses'))
         else:
             # The supplied form contained errors -
             # just print them to the terminal.
             print(form.errors)
     # Will handle the bad form, new form, or no form supplied cases.
     # Render the form with error messages (if any).
-    return render(request, 'rango/add_category.html', {'form': form})
+    context_dict = {
+        'form': form,
+        'course': course,
+    }
+    return render(request, 'rango/add_category.html', context_dict)
 
 @login_required
 def add_page(request, category_name_slug):
@@ -230,10 +245,6 @@ def add_page(request, category_name_slug):
 def restricted(request):
     return render(request, 'rango/restricted.html')
 
-
-
-
-
 @login_required
 def register_profile(request):
     form = UserProfileForm()
@@ -248,39 +259,32 @@ def register_profile(request):
              print(form.errors) 
     context_dict = {'form': form}
     return render(request, 'rango/profile_registration.html', context_dict)
-
-
 class AboutView(View):
-      def get(self, request):
-          context_dict = {}
-          visitor_cookie_handler(request)
-          context_dict['visits'] = request.session['visits']
-          return render(request, 'rango/about.html',
-                                                 context_dict)
+    def get(self, request):
+        context_dict = {}
+        visitor_cookie_handler(request)
+        context_dict['visits'] = request.session['visits']
+        return render(request, 'rango/about.html', context_dict)
+class AddCategoryView(View):
+    @method_decorator(login_required) 
+    def get(self, request):
+        form = CategoryForm()
+        return render(request, 'rango/add_category.html', {'form': form})
 
-
-
-class AddCategoryView(View): 
-      @method_decorator(login_required) 
-      def get(self, request):
-          form = CategoryForm()
-          return render(request, 'rango/add_category.html', {'form': form})
-
-      @method_decorator(login_required) 
-      def post(self, request):
+    @method_decorator(login_required) 
+    def post(self, request):
         form = CategoryForm(request.POST)
         if form.is_valid():
-           form.save(commit=True)
-           return redirect(reverse('rango:index'))
+            form.save(commit=True)
+            return redirect(reverse('rango:index'))
         else: 
             print(form.errors)
         return render(request, 'rango/add_category.html', {'form': form})
 
-
 class ProfileView(View):
     def get_user_details(self, username):
         try:
-           user = User.objects.get(username=username)
+            user = User.objects.get(username=username)
         except User.DoesNotExist: 
             return None
         
@@ -292,7 +296,7 @@ class ProfileView(View):
     @method_decorator(login_required) 
     def get(self, request, username):
         try:
-           (user, user_profile, form) = self.get_user_details(username)
+            (user, user_profile, form) = self.get_user_details(username)
         except TypeError:
             return redirect(reverse('rango:index'))
         
@@ -307,12 +311,12 @@ def post(self, request, username):
     try:
         (user, user_profile, form) = self.get_user_details(username)
     except TypeError:
-       return redirect(reverse('rango:index'))
+        return redirect(reverse('rango:index'))
     form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
 
     if form.is_valid():
-         form.save(commit=True)
-         return redirect('rango:profile', user.username)
+        form.save(commit=True)
+        return redirect('rango:profile', user.username)
     else: 
         print(form.errors)
         context_dict = {'user_profile': user_profile,
