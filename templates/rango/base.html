@@ -44,9 +44,6 @@
 
             <!--navbar supported item3: dropdown menu for replacing sidebar-->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Tutorials
-                </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for cat in categories %}
                     <!-- <a class="dropdown-item" href="{% url 'rango:show_category' cat.slug %}">{{ cat.name }}</a> -->
@@ -57,8 +54,9 @@
                 </div>
             </li>
 
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search Tutorials" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" id="user-form" method="post" action="{% url 'rango:search' %}">
+                    {% csrf_token %}
+                <input class="form-control mr-sm-2" name="query" id="query" type="search" placeholder="Search Tutorials" aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
 
