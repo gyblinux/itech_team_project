@@ -1,4 +1,4 @@
-from rango.views import add_category
+from rango.views import add_category, add_comment
 from populate_rango import add_cat, create_course, populate
 from django.http import response
 from django.test import TestCase
@@ -7,6 +7,18 @@ from django.test import SimpleTestCase
 
 from rango.models import Course, Category
 from django.urls import reverse
+from django.test.client import Client
+from django.conf import settings
+from rango.forms import CommentForm
+
+class IndexingTest(TestCase):
+    def test_index_view(self):
+        response = self.client.get(reverse('rango:index'))
+        self.assertContains(response, "Learning Hub")
+
+class AuthenticationTest(TestCase):
+    def test_auth_component(self):
+        self.assertTrue('django.contrib.auth' in settings.INSTALLED_APPS)
 
 class CourseTest(TestCase):
     def test_add_course_test(self):
@@ -32,3 +44,13 @@ class CourseTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test Category")
 
+class FormTest(TestCase):
+    # Valid Form Data
+    def test_some_comments(self):
+        form = CommentForm(data={'content': "Some test contents"})
+        self.assertTrue(form.is_valid())
+
+    # Invalid Form Data
+    def test_empty_comment(self):
+        form = CommentForm(data={'content': ""})
+        self.assertFalse(form.is_valid())
