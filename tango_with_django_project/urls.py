@@ -32,9 +32,10 @@ urlpatterns = [
     path('rango/', include('rango.urls')),
     path('admin/', admin.site.urls),
     
-     path('accounts/register/',
-         MyRegistrationView.as_view(),
-         name='registration_register'),
-         
+    # lyy test:
+    path('stock/', include('rango.urls')),
+
+    path('accounts/register/', MyRegistrationView.as_view(), name='registration_register'),
     path('accounts/', include('registration.backends.simple.urls')),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

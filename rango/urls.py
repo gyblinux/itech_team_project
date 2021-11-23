@@ -1,6 +1,6 @@
 from django.urls import path
 from rango import views
-from rango.views import AboutView, add_category
+from rango.views import AboutView, add_category, show_category
 
 app_name="rango"
 
@@ -25,5 +25,8 @@ urlpatterns = [
     path('profile/<username>/', views.ProfileView.as_view(), name='profile'),
     path('restricted/', views.restricted, name='restricted'),
 
-    path('search/', views.search, name='search')
+    path('search/', views.search, name='search'),
+
+    # lyy test:
+    path('category/<slug:category_name_slug>/', views.show_category, name='show_category'),
 ]

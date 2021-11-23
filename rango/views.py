@@ -110,7 +110,6 @@ def single_category(request, course_id, category_name_slug):
     context_dict = {}
     context_dict['course'] = course
 
-    form = CommentForm()
     try:
         category = Category.objects.get(slug=category_name_slug)
         pages = Page.objects.filter(category=category)
@@ -119,6 +118,8 @@ def single_category(request, course_id, category_name_slug):
     except Category.DoesNotExist:
         context_dict['category'] = None
         context_dict['pages'] = None
+
+    form = CommentForm()
     context_dict['form'] = form
 
     if request.method == 'POST':
@@ -133,8 +134,6 @@ def single_category(request, course_id, category_name_slug):
 
 def show_category(request, category_name_slug):
     context_dict= {}
-    form = CommentForm()
-
     try:
         category = Category.objects.get(slug=category_name_slug)
         pages = Page.objects.filter(category=category)
@@ -143,11 +142,11 @@ def show_category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['category'] = None
         context_dict['pages'] = None
+
+    form = CommentForm()
     context_dict['form'] = form
 
-    if request.method == 'POST':
-        add_comment(request, category_name_slug)
-    
+    # to add    
     try:
         comment = Comment.objects.filter(category=category_name_slug).order_by('-posttime')[:6]
         context_dict['comments'] = comment
@@ -155,7 +154,7 @@ def show_category(request, category_name_slug):
         context_dict['comments'] = None
     
     return render(request, 'rango/category.html', context=context_dict)
-
+# to add
 def add_comment(request, category_name_slug):
     form = CommentForm(request.POST)
     if form.is_valid() and form['content'] != None:
@@ -165,14 +164,15 @@ def add_comment(request, category_name_slug):
         f.posttime = datetime.now()
         f.category = category_name_slug
         f.save()
-
+        # to add
+        return redirect(f'/stock/category/{category_name_slug}')
         # for redirect back to single_category
-        category = Category.objects.get(slug=category_name_slug)
-        return redirect(reverse('rango:single_category', 
-            kwargs={'course_id': category.course.course_id,
-                    'category_name_slug': category_name_slug,
-            }
-        ))
+        # category = Category.objects.get(slug=category_name_slug)
+        # return redirect(reverse('rango:single_category', 
+        #     kwargs={'course_id': category.course.course_id,
+        #             'category_name_slug': category_name_slug,
+        #     }
+        # ))
     else:
         print(form.errors)
 
